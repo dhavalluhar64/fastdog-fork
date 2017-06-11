@@ -1,6 +1,7 @@
 // Required modules
 const fs = require('fs');
 const yamlFront = require('yaml-front-matter');
+const markdown = require('markdown').markdown;
 
 // Recursive function to walk a directory and return a list of all files with
 // complete path.
@@ -27,10 +28,22 @@ exports.prepareFiles = function prepareFiles(directory, callback) {
   let counter = 0;
 
   files.forEach(function task(file) {
-    pages.push(yamlFront.loadFront(file));
+    pages.push(yamlFront.loadFront(file, 'pageContent'));
     counter += 1;
     if (counter >= files.length) {
       callback(pages);
     }
   });
-}
+};
+
+exports.handleFile = function handleFile(preparedFile) {
+  const newFile = preparedFile;
+  const content = preparedFile.pageContent;
+  try {
+    newFile.rawHTML = markdown.toHTML(content);
+    return newFile;
+  } catch (e) {
+    console.log(e);
+    return preparedFile;
+  }
+};
