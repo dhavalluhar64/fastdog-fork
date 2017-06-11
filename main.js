@@ -1,4 +1,13 @@
-YAML = require('yamljs');
+// Node dependencies.
+const yaml = require('yamljs');
 
-// Load yaml file using YAML.load
-var siteConfig = YAML.load('scaffold/config.yaml');
+// Fastdog dependencies.
+const parsers = require('./parsers');
+
+// Load config file using YAML.load.
+const siteConfig = yaml.load('scaffold/config.yaml');
+
+let content = parsers.prepareFiles('scaffold/content', function (files) {
+  console.log(siteConfig);
+  console.log(files);
+});

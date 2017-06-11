@@ -10,7 +10,10 @@
     "yamljs": "^0.2.10"
   },
   "devDependencies": {
-    "devtron": "^1.4.0"
+    "devtron": "^1.4.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.3.0"
   },
   "scripts": {},
   "author": "Aaron Crosman",
