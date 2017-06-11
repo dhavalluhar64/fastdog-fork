@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html{{ html_attributes }}>
+  <head>
+    {{ head_tags}}
+    <title>{{ head_title|safe_join(' | ') }}</title>
+  </head>
+  <body{{ attributes }}>
+    <a href="#main-content" class="visually-hidden focusable">'Skip to main content'</a>
+    {{ page_top }}
+    {{ page }}
+    {{ page_bottom }}
+  </body>
+</html>
