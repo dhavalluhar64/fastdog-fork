@@ -23,11 +23,11 @@ function directoryWalk(directory) {
 }
 
 exports.prepareFiles = function prepareFiles(directory, callback) {
-  let pages = [];
-  let files = directoryWalk(directory);
+  const pages = [];
+  const files = directoryWalk(directory);
   let counter = 0;
 
-  files.forEach(function task(file) {
+  files.forEach((file) => {
     pages.push(yamlFront.loadFront(file, 'pageContent'));
     counter += 1;
     if (counter >= files.length) {
@@ -39,11 +39,6 @@ exports.prepareFiles = function prepareFiles(directory, callback) {
 exports.handleFile = function handleFile(preparedFile) {
   const newFile = preparedFile;
   const content = preparedFile.pageContent;
-  try {
-    newFile.rawHTML = markdown.toHTML(content);
-    return newFile;
-  } catch (e) {
-    console.log(e);
-    return preparedFile;
-  }
+  newFile.rawHTML = markdown.toHTMLTree(content);
+  return newFile;
 };

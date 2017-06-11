@@ -11,19 +11,20 @@ const siteConfig = yaml.load('scaffold/config.yaml');
 const content = [];
 
 // Nothing about this seems like good style.
-function complete() {
+function contentPrepComplete() {
   console.log(content);
+  parsers.loadTemplate('html', {});
 }
 
-parsers.prepareFiles('scaffold/content', function (files) {
+parsers.prepareFiles('scaffold/content', (files) => {
   console.log(siteConfig);
   let counter = 0;
 
-  files.forEach(function (file) {
+  files.forEach((file) => {
     content.push(parsers.handleFile(file));
     counter += 1;
     if (counter >= files.length) {
-      complete();
+      contentPrepComplete();
     }
   });
   console.log(files);
