@@ -23,12 +23,15 @@ function loadDefaults(name) {
       defaults.html_attributes = [];
       defaults.head_tags = [];
       defaults.head_title = [];
-      defaults.page_top = '';
-      defaults.page_bottom = '';
-      defaults.page = '';
-      // defaults.elements.page_bottom = loadDefaults('page-bottom');
-      // defaults.elements.page_top = loadDefaults('page-top');
-      // defaults.elements.page = loadDefaults('page');
+      defaults.page_top = {};
+      defaults.page_top.header = '';
+      defaults.page_bottom = {};
+      defaults.page_bottom.footer = '';
+      defaults.page_bottom.copyright = '';
+      defaults.page = {};
+      defaults.page.title = '';
+      defaults.page.content = '';
+      defaults.page.sidebar = '';
   }
 
   return defaults;
