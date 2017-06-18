@@ -4,7 +4,7 @@
   "description": "A node.js static site generator.",
   "main": "main.js",
   "dependencies": {
-    "markdown": "^0.5.0",
+    "marked": "^0.3.6",
     "twig": "~1.10",
     "yaml-front-matter": "^3.4.0",
     "yamljs": "^0.2.10"
