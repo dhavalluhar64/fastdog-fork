@@ -4,7 +4,9 @@
   "description": "A node.js static site generator.",
   "main": "main.js",
   "dependencies": {
+    "commander": "^2.11.0",
     "marked": "^0.3.6",
+    "path": "^0.12.7",
     "twig": "~1.10",
     "yaml-front-matter": "^3.4.0",
     "yamljs": "^0.2.10"
@@ -13,7 +15,7 @@
     "devtron": "^1.4.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.3.0"
+    "eslint-plugin-import": "^2.6.1"
   },
   "scripts": {},
   "author": "Aaron Crosman",

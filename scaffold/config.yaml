@@ -1,5 +1,6 @@
 copyright: "Aaron Crosman"
 license: "CC BY-NC-ND"
 site: "Fastdog Sample"
-base_url: "https://www.example.org"
-output_path: "./html"
+baseUrl: "https://www.example.org"
+outputPath: "./html"
+contentPath: "./content"

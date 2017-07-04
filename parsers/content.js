@@ -30,6 +30,7 @@ exports.prepareFiles = function prepareFiles(directory, callback) {
   files.forEach((file) => {
     const splitFile = yamlFront.loadFront(file, 'pageContent');
     splitFile.siteRoot = directory;
+    splitFile.fullName = file;
     pages.push(splitFile);
     counter += 1;
     if (counter >= files.length) {
