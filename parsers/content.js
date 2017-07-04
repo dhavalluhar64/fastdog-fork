@@ -22,21 +22,15 @@ function directoryWalk(directory) {
   return files;
 }
 
-function setInternalPath(link) {
-
-}
-
-function reviewTree(htmlTree) {
-
-}
-
 exports.prepareFiles = function prepareFiles(directory, callback) {
   const pages = [];
   const files = directoryWalk(directory);
   let counter = 0;
 
   files.forEach((file) => {
-    pages.push(yamlFront.loadFront(file, 'pageContent'));
+    const splitFile = yamlFront.loadFront(file, 'pageContent');
+    splitFile.siteRoot = directory;
+    pages.push(splitFile);
     counter += 1;
     if (counter >= files.length) {
       callback(pages);
@@ -47,7 +41,8 @@ exports.prepareFiles = function prepareFiles(directory, callback) {
 exports.handleFile = function handleFile(preparedFile) {
   const newFile = preparedFile;
   const content = preparedFile.pageContent;
-  newFile.tokens = marked.lexer(content)
+
+  newFile.tokens = marked.lexer(content);
   newFile.html = marked.parser(newFile.tokens);
   return newFile;
 };

@@ -20,15 +20,15 @@ function loadDefaults(name) {
       break;
     case 'html':
     default:
-      defaults.html_attributes = [];
-      defaults.head_tags = [];
-      defaults.head_title = [];
-      defaults.page_top = {};
+      defaults.html_attributes = '';
+      defaults.head_tags = '';
+      defaults.head_title = '';
+      defaults.page_top = '';
       defaults.page_top.header = '';
-      defaults.page_bottom = {};
+      defaults.page_bottom = '';
       defaults.page_bottom.footer = '';
       defaults.page_bottom.copyright = '';
-      defaults.page = {};
+      defaults.page = '';
       defaults.page.title = '';
       defaults.page.content = '';
       defaults.page.sidebar = '';
@@ -38,10 +38,17 @@ function loadDefaults(name) {
 }
 
 exports.loadTemplate = function loadTemplate(name, inputs) {
-  const variables = {};
-  Object.assign(variables, loadDefaults(name), inputs);
+  return new Promise((resolve, reject) => {
+    const path = `./scaffold/templates/${name}.html.twig`;
+    const variables = {};
 
-  twig.renderFile('./scaffold/templates/html.html.twig', variables, (err, html) => {
-    console.log(html);
+    Object.assign(variables, loadDefaults(name), inputs);
+    twig.renderFile(path, variables, (err, html) => {
+      if (!err) {
+        resolve(html);
+      } else {
+        reject(err);
+      }
+    });
   });
 };

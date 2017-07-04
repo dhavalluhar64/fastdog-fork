@@ -12,12 +12,25 @@ const content = [];
 
 // Nothing about this seems like good style.
 function contentPrepComplete() {
-  console.log(content);
-  parsers.loadTemplate('html', {});
+  // Loop through our chapter urls
+  content.forEach((file) => {
+    parsers.loadTemplate('page', {
+      page: {
+        content: file.html,
+        sidebar: '',
+        title: file.title,
+      },
+    }).then((response) => {
+      parsers.loadTemplate('html', {
+        page: response,
+      }).then((fullResponse) => {
+        console.log(fullResponse);
+      });
+    });
+  });
 }
 
 parsers.prepareFiles('scaffold/content', (files) => {
-  console.log(siteConfig);
   let counter = 0;
 
   files.forEach((file) => {
@@ -27,5 +40,4 @@ parsers.prepareFiles('scaffold/content', (files) => {
       contentPrepComplete();
     }
   });
-  console.log(files);
 });
