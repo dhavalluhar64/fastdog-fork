@@ -56,8 +56,8 @@ function contentPrepComplete() {
       parsers.loadTemplate('html', {
         page: response,
       }).then((fullResponse) => {
-        let outputFile = file.fullName.slice(siteConfig.contentBasePath.length);
-        outputFile = path.join(siteConfig.outputPath, outputFile);
+        let outputFile = file.fullName.slice(siteConfig.contentBasePath.length, -2);
+        outputFile = path.join(siteConfig.outputPath, outputFile).concat('html');
         const outputDir = path.dirname(outputFile);
 
         // Ensure the directory exists.
