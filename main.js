@@ -32,8 +32,8 @@ console.log(siteConfig);
 const content = [];
 
 // Nothing about this seems like good style.
-function writeFile(filePath, content) {
-  fs.writeFile(filePath, content, (err) => {
+function writeFile(filePath, text) {
+  fs.writeFile(filePath, text, (err) => {
     if (err) {
       return console.log(err);
     }
@@ -56,7 +56,8 @@ function contentPrepComplete() {
       parsers.loadTemplate('html', {
         page: response,
       }).then((fullResponse) => {
-        const outputFile = path.join(siteConfig.outputPath, file.fullName);
+        let outputFile = file.fullName.slice(siteConfig.contentBasePath.length);
+        outputFile = path.join(siteConfig.outputPath, outputFile);
         const outputDir = path.dirname(outputFile);
 
         // Ensure the directory exists.
