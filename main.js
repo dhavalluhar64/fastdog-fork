@@ -14,6 +14,7 @@ program.version(`Fastdog yawn ${pkg.version}`)
 
 // Fastdog dependencies.
 const parsers = require('./parsers');
+const fileHandlers = require('./fileHandlers');
 
 if (typeof program.source === 'undefined') {
   console.error('Project source path required.');
@@ -31,20 +32,9 @@ console.log(siteConfig);
 // Content storage
 const content = [];
 
-// Nothing about this seems like good style.
-function writeFile(filePath, text) {
-  fs.writeFile(filePath, text, (err) => {
-    if (err) {
-      return console.log(err);
-    }
-    console.log(`${filePath} file was saved!`);
-    return true;
-  });
-}
-
 // This also seems to be bad style.
 function contentPrepComplete() {
-  // Loop through our chapter urls
+  // Loop through our pages.
   content.forEach((file) => {
     parsers.loadTemplate('page', {
       page: {
@@ -56,38 +46,13 @@ function contentPrepComplete() {
       parsers.loadTemplate('html', {
         page: response,
       }).then((fullResponse) => {
-        let outputFile = file.fullName.slice(siteConfig.contentBasePath.length, -2);
-        outputFile = path.join(siteConfig.outputPath, outputFile).concat('html');
-        const outputDir = path.dirname(outputFile);
-
-        // Ensure the directory exists.
-        // Hattip: https://stackoverflow.com/a/41970204/24215
-        outputDir
-          .split(path.sep)
-          .reduce((currentPath, folder) => {
-            let current = currentPath;
-            current += folder + path.sep;
-            if (!fs.existsSync(current)) {
-              fs.mkdirSync(current);
-            }
-            return current;
-          }, '');
-
-        if (!fs.existsSync(outputDir)) {
-          fs.mkdir(outputDir, (err) => {
-            if (err) {
-              console.error('Unable to create directory files.');
-              console.log(err);
-            } else {
-              writeFile(outputFile, fullResponse);
-            }
-          });
-        } else {
-          writeFile(outputFile, fullResponse);
-        }
+        fileHandlers.outputFile(siteConfig, file, fullResponse);
       });
     });
   });
+
+  // Copy supporting files.
+  fileHandlers.copyHandler(siteConfig);
 }
 
 parsers.prepareFiles(siteConfig.contentBasePath, (files) => {

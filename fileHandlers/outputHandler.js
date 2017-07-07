@@ -7,7 +7,7 @@ function writeFile(filePath, text) {
     if (err) {
       return console.log(err);
     }
-    console.log(`${filePath} file was saved!`);
+    console.log(`${filePath} generated.`);
     return true;
   });
 }
