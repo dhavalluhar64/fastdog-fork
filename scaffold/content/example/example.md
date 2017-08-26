@@ -2,18 +2,15 @@
 date: 1979-03-28T03:00:00-04:00
 author: Aaron Crosman
 draft: true
-title: Sample Content
-image: murphy.jpg
-image-caption: Murphy played hard.
-image-alt: A greyhound in midstride chasing a ball.
+title: Example Content
+image:
 type: article
 tags:
   Categories:
-    - greyhound
-    - yard
+    - example
 ---
 
-Murphy celebrated his play time.
+This is a sample subpage.
 
 # H1
 ## H2
