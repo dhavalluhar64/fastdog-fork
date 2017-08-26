@@ -9,8 +9,8 @@ image-alt: A greyhound in midstride chasing a ball.
 type: article
 tags:
   Categories:
-    - greyhound
-    - yard
+    greyhound:
+    yard:
 ---
 
 Murphy celebrated his play time.

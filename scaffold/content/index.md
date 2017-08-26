@@ -13,4 +13,4 @@ tags:
 
 # Fastdog Generator
 
-This is the default home page for Fastdog.  It has a static opening, and then a list of top level pages (things in content root).  Full Nav tree can be displayed in a sidebar.
+This is the default home page for Fastdog. It has a static opening, and then a list of top level pages (things in content root). Full Nav tree can be displayed in a sidebar.

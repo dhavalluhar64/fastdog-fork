@@ -7,7 +7,9 @@ image:
 type: article
 tags:
   Categories:
-    - example
+    exmaple:
+  Examples:
+    example:
 ---
 
 This is a sample subpage.

@@ -13,8 +13,7 @@ function writeFile(filePath, text) {
 }
 
 exports.writeFiles = function writeFiles(siteConfig, file, fileContent) {
-  let outputFile = file.fullName.slice(siteConfig.contentBasePath.length, -2);
-  outputFile = path.join(siteConfig.outputPath, outputFile).concat('html');
+  const outputFile = path.join(siteConfig.outputPath, file.localName);
   const outputDir = path.dirname(outputFile);
 
   // Ensure the directory exists.

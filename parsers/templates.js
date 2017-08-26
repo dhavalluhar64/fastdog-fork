@@ -18,6 +18,21 @@ function loadDefaults(name) {
       defaults.content = '';
       defaults.sidebar = '';
       break;
+    case 'index':
+      defaults.title = '';
+      defaults.content = '';
+      defaults.sidebar = '';
+      defaults.map = '';
+      defaults.tags = '';
+      break;
+    case 'map':
+      defaults.map = [
+        {
+          title: '',
+          path: '',
+        },
+      ];
+      break;
     case 'html':
     default:
       defaults.html_attributes = '';

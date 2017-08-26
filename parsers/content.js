@@ -29,8 +29,26 @@ exports.prepareFiles = function prepareFiles(directory, callback) {
 
   files.forEach((file) => {
     const splitFile = yamlFront.loadFront(file, 'pageContent');
-    splitFile.siteRoot = directory;
+
+    // Add file specific meta data.
     splitFile.fullName = file;
+    splitFile.localName = splitFile.fullName.slice(directory.length, -2).concat('html');
+    splitFile.localPath = splitFile.localName.split('/').slice(0, -1).join('/');
+
+    // Add a reference to this page to the tags for index support later.
+    if (splitFile.tags) {
+      Object.keys(splitFile.tags).forEach((tag) => {
+        Object.keys(splitFile.tags[tag]).forEach((subtag) => {
+          if (splitFile.tags[tag][subtag]) {
+            splitFile.tags[tag][subtag].push(splitFile.localName);
+          } else {
+            splitFile.tags[tag][subtag] = [splitFile.localName];
+          }
+        });
+      });
+    }
+
+    // Add to list and check if we're done.
     pages.push(splitFile);
     counter += 1;
     if (counter >= files.length) {
