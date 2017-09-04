@@ -103,15 +103,19 @@ parsers.prepareFiles(siteConfig.contentBasePath, (files) => {
 
     // Add to site map:
     if (Object.prototype.hasOwnProperty.call(siteIndex.map, processedFile.localPath)) {
-      siteIndex.map[processedFile.localPath].push({
+      siteIndex.map[processedFile.localPath].map.push({
         title: processedFile.title,
         path: processedFile.localName,
       });
     } else {
-      siteIndex.map[processedFile.localPath] = [{
+      siteIndex.map[processedFile.localPath] = {
+        hasSub: true,
         title: processedFile.title,
-        path: processedFile.localName,
-      }];
+        map: [{
+          title: processedFile.title,
+          path: processedFile.localName,
+        }],
+      };
     }
 
     // Check if we have completed all prep work and move on when last file is

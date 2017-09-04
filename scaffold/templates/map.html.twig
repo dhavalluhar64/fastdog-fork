@@ -1,5 +1,10 @@
-<ul id="section-navigation">
+<ul class="site-nav">
   {% for item in map %}
+    {% if item.hasSub %}
+      <li>{{ item.title }}</li>
+      {% include "map.html.twig" with {'map': item.map} %}
+    {% else %}
       <li><a href="{{ item.path }}">{{ item.title }}</a></li>
+    {% endif %}
   {% endfor %}
 </ul>
