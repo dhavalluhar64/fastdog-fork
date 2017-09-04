@@ -111,6 +111,7 @@ parsers.prepareFiles(siteConfig.contentBasePath, (files) => {
       siteIndex.map[processedFile.localPath] = {
         hasSub: true,
         title: processedFile.title,
+        path: processedFile.localPath,
         map: [{
           title: processedFile.title,
           path: processedFile.localName,
