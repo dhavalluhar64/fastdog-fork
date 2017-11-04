@@ -35,7 +35,7 @@ exports.prepareFiles = function prepareFiles(directory, callback) {
 
     // Add file specific meta data.
     splitFile.fullName = file;
-    splitFile.localName = splitFile.fullName.slice(directory.length, -2).concat('html');
+    splitFile.localName = splitFile.fullName.slice(realDirectory.length, -2).concat('html');
     splitFile.localPath = splitFile.localName.split('/').slice(0, -1).join('/');
 
     // Add a reference to this page to the tags for index support later.

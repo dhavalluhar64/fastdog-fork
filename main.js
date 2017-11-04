@@ -28,6 +28,11 @@ const siteConfig = yaml.load(configPath);
 siteConfig.source = program.source;
 siteConfig.contentBasePath = path.join(siteConfig.source, siteConfig.contentPath);
 
+if (!path.isAbsolute(siteConfig.outputPath)) {
+  // Recalculate the path based on the local of the source.
+  siteConfig.outputPath = path.join(siteConfig.source, siteConfig.outputPath);
+}
+
 console.log(siteConfig);
 
 // An organized index of the site.
