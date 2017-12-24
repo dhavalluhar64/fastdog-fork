@@ -1,8 +1,12 @@
+{% macro navList(map) %}
 <ul class="site-nav">
   {% for item in map %}
     <li><a href="{{ item.path }}">{{ item.title }}</a></li>
     {% if item.hasSub %}
-      {% include "map.html.twig" with {'map': item.map} %}
+      {{ navList(item) }}
     {% endif %}
   {% endfor %}
 </ul>
+{% endmacro %}
+
+{{ navList(item) }}

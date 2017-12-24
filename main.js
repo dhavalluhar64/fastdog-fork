@@ -49,37 +49,55 @@ function contentPrepComplete() {
   siteIndex.content.forEach((file) => {
     // Index pages are special cased to allow site maps and sectional nav.
     if (file.localName.endsWith('/index.html')) {
-      parsers.loadTemplate('map', {
-        map: siteIndex.map,
-      }).then(response =>
-        parsers.loadTemplate('index', {
+      parsers.loadTemplate(
+        'map',
+        { map: siteIndex.map },
+        siteConfig,
+      ).then(response =>
+        parsers.loadTemplate(
+          'index',
+          {
+            page: {
+              content: file.html,
+              sidebar: '',
+              title: file.title,
+              map: response,
+              tags: siteIndex.tags,
+            },
+          },
+          siteConfig,
+        ),
+      ).then(response =>
+        parsers.loadTemplate(
+          'html',
+          { page: response },
+          siteConfig,
+        ),
+      ).then((fullResponse) => {
+        fileHandlers.outputFile(siteConfig, file, fullResponse);
+      })
+      .catch((rejection) => {
+        // Something better should be done when things go wrong.
+        console.log(rejection);
+      });
+    } else {
+      // All other pages go on through (at least for now).
+      parsers.loadTemplate(
+        'page',
+        {
           page: {
             content: file.html,
             sidebar: '',
             title: file.title,
-            map: response,
-            tags: siteIndex.tags,
           },
-        }),
-      ).then(response =>
-        parsers.loadTemplate('html', {
-          page: response,
-        }),
-      ).then((fullResponse) => {
-        fileHandlers.outputFile(siteConfig, file, fullResponse);
-      });
-    } else {
-      // All other pages go on through (at least for now).
-      parsers.loadTemplate('page', {
-        page: {
-          content: file.html,
-          sidebar: '',
-          title: file.title,
         },
-      }).then((response) => {
-        parsers.loadTemplate('html', {
-          page: response,
-        }).then((fullResponse) => {
+        siteConfig,
+      ).then((response) => {
+        parsers.loadTemplate(
+          'html',
+          { page: response },
+          siteConfig,
+        ).then((fullResponse) => {
           fileHandlers.outputFile(siteConfig, file, fullResponse);
         });
       });

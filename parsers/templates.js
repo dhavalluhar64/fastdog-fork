@@ -1,4 +1,4 @@
-const twig = require('twig');
+const nunjucks = require('nunjucks');
 
 function loadDefaults(name) {
   const defaults = {
@@ -52,13 +52,15 @@ function loadDefaults(name) {
   return defaults;
 }
 
-exports.loadTemplate = function loadTemplate(name, inputs) {
+exports.loadTemplate = function loadTemplate(name, inputs, siteConfig) {
   return new Promise((resolve, reject) => {
-    const path = `./scaffold/templates/${name}.html.twig`;
+    const path = siteConfig.source + "/templates/";
+    const file = `${name}.html.njk`;
     const variables = {};
 
     Object.assign(variables, loadDefaults(name), inputs);
-    twig.renderFile(path, variables, (err, html) => {
+    nunjucks.configure(path, { autoescape: false });
+    nunjucks.render(file, variables, (err, html) => {
       if (!err) {
         resolve(html);
       } else {
