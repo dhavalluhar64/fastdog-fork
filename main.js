@@ -94,7 +94,7 @@ function contentPrepComplete() {
         siteConfig,
       ).then((response) => {
         // TODO: Add metatag support (head_tags)
-        // TODO: Add support for default values for page structure.
+        // TODO: Add support for all front matter in sample pages.
         parsers.loadTemplate(
           'html',
           {
