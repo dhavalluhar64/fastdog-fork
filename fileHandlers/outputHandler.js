@@ -41,4 +41,4 @@ exports.writeFiles = function writeFiles(siteConfig, file, fileContent) {
   } else {
     writeFile(outputFile, fileContent);
   }
-}
+};
