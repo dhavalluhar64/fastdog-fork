@@ -4,4 +4,5 @@ const templates = require('./templates.js');
 module.exports = {
   processFiles: content.processFiles,
   loadTemplate: templates.loadTemplate,
+  processTemplate: templates.processTemplate,
 };
