@@ -36,6 +36,33 @@ function handleFile(preparedFile) {
   return newFile;
 }
 
+// Prepare the meta tags for the page.
+// TODO: Add support for description.
+// TODO: Add support for OpenGraph.
+// TODO: Add support for TwitterCard.
+// TODO: Add support for RDF.
+function prepareMetaData(tags) {
+  const headers = [
+    {
+      type: 'meta',
+      name: 'generator',
+      value: 'Fastdog static site creator',
+    },
+  ];
+
+  const groups = Object.keys(tags);
+  for (let i = 0; i < groups.length; i += 1) {
+    const group = groups[i];
+    headers.push({
+      type: 'meta',
+      name: 'keywords',
+      value: Object.keys(tags[group]).join(' '),
+    });
+  }
+
+  return headers;
+}
+
 // Nested promisses seems like terrible style. There must be a better way.
 // TODO: refactor this into something saner.
 // TODO: Ensure all promises catch rejections.
@@ -89,12 +116,14 @@ function finishContent(siteIndex, siteConfig) {
         siteConfig,
       ).then((response) => {
         // TODO: Add metatag support (head_tags)
+        const headerTags = prepareMetaData(file.tags);
         // TODO: Add support for all front matter in sample pages.
         templates.loadTemplate(
           'html',
           {
             page: response,
             head_title: file.title,
+            head_tags: headerTags,
           },
           siteConfig,
         ).then((fullResponse) => {

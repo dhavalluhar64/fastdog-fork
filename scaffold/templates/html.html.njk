@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html{{ html_attributes }}>
   <head>
-    {{ head_tags}}
+    {% for tag in head_tags %}
+    <{{ tag.type }} name="{{ tag.name }}" value="{{ tag.value }}">
+    {% endfor %}
     <title>{{ head_title }}</title>
   </head>
   <body{{ attributes }}>
