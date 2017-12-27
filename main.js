@@ -93,9 +93,14 @@ function contentPrepComplete() {
         },
         siteConfig,
       ).then((response) => {
+        // TODO: Add metatag support (head_tags)
+        // TODO: Add support for default values for page structure.
         parsers.loadTemplate(
           'html',
-          { page: response },
+          {
+            page: response,
+            head_title: file.title,
+          },
           siteConfig,
         ).then((fullResponse) => {
           fileHandlers.outputFile(siteConfig, file, fullResponse);
