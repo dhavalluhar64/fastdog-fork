@@ -73,20 +73,24 @@ function buildSiteIndex(files, siteConfig) {
 
     // Add to site map. If we haven't added this section yet, create a new Index
     // entry to track it.
-    if (!Object.prototype.hasOwnProperty.call(siteIndex.map, processedFile.localPath)) {
-      siteIndex.map[processedFile.localPath] = {
+    let localPath = processedFile.localPath;
+    if (localPath === '') {
+      localPath = '/';
+    }
+    if (!Object.prototype.hasOwnProperty.call(siteIndex.map, localPath)) {
+      siteIndex.map[localPath] = {
         hasSub: true,
         title: processedFile.title,
-        path: processedFile.localPath,
+        path: localPath,
         map: {},
       };
     }
     // If this is an index update the parent.
     if (processedFile.localName.endsWith('index.html')) {
-      siteIndex.map[processedFile.localPath].title = processedFile.title;
+      siteIndex.map[localPath].title = processedFile.title;
     } else {
       // Otherwise add file to proper subsection.
-      siteIndex.map[processedFile.localPath].map[processedFile.localName] = {
+      siteIndex.map[localPath].map[processedFile.localName] = {
         hasSub: false,
         title: processedFile.title,
         path: processedFile.localName,

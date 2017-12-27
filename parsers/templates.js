@@ -58,7 +58,7 @@ function loadDefaults(name) {
 // TODO: Add support for OpenGraph.
 // TODO: Add support for TwitterCard.
 // TODO: Add support for RDF.
-function prepareMetaData(tags) {
+function prepareMetaData(tags = {}) {
   const headers = [
     {
       type: 'meta',
@@ -79,7 +79,6 @@ function prepareMetaData(tags) {
 
   return headers;
 }
-
 
 /**
  * Where loadTemplate handles the details of loading one template (via promises)
@@ -156,6 +155,10 @@ exports.processTemplate = function processTemplate(file, siteIndex, siteConfig) 
         // TODO: Something better should be done when things go wrong.
         console.log(rejection);
       });
+    })
+    .catch((rejection) => {
+      // TODO: Something better should be done when things go wrong.
+      console.log(rejection);
     });
   }
 };
@@ -166,6 +169,7 @@ exports.loadTemplate = function loadTemplate(name, inputs, siteConfig) {
     const file = `${name}.html.njk`;
     const variables = {};
 
+    // TODO: Determine why UTF-8 encoded characters get mangled.
     Object.assign(variables, loadDefaults(name), inputs);
     nunjucks.configure(path, { autoescape: false });
     nunjucks.render(file, variables, (err, html) => {
