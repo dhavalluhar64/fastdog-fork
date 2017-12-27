@@ -2,10 +2,8 @@
 
 // Node dependencies.
 const yaml = require('yamljs');
-const fs = require('fs');
 const program = require('commander');
 const path = require('path');
-const merge = require('deepmerge');
 const pkg = require('./package.json');
 
 // Prepare command line arguments.
@@ -15,7 +13,6 @@ program.version(`Fastdog yawn ${pkg.version}`)
 
 // Fastdog dependencies.
 const parsers = require('./parsers');
-const fileHandlers = require('./fileHandlers');
 
 if (typeof program.source === 'undefined') {
   console.error('Project source path required.');
@@ -35,126 +32,5 @@ if (!path.isAbsolute(siteConfig.outputPath)) {
 
 console.log(siteConfig);
 
-// An organized index of the site.
-const siteIndex = {
-  content: [],
-  tags: {},
-  map: {},
-};
-
-// This also seems to be bad style, and really needs to be in another file.
-// TODO: refactor this into something saner.
-function contentPrepComplete() {
-  // Loop through our pages.
-  siteIndex.content.forEach((file) => {
-    // Index pages are special cased to allow site maps and sectional nav.
-    if (file.localName.endsWith('/index.html')) {
-      parsers.loadTemplate(
-        'map',
-        { map: siteIndex.map },
-        siteConfig,
-      ).then(response =>
-        parsers.loadTemplate(
-          'index',
-          {
-            page: {
-              content: file.html,
-              sidebar: '',
-              title: file.title,
-              map: response,
-              tags: siteIndex.tags,
-            },
-          },
-          siteConfig,
-        ),
-      ).then(response =>
-        parsers.loadTemplate(
-          'html',
-          { page: response },
-          siteConfig,
-        ),
-      ).then((fullResponse) => {
-        fileHandlers.outputFile(siteConfig, file, fullResponse);
-      })
-      .catch((rejection) => {
-        // Something better should be done when things go wrong.
-        console.log(rejection);
-      });
-    } else {
-      // All other pages go on through (at least for now).
-      parsers.loadTemplate(
-        'page',
-        {
-          page: {
-            content: file.html,
-            sidebar: '',
-            title: file.title,
-          },
-        },
-        siteConfig,
-      ).then((response) => {
-        // TODO: Add metatag support (head_tags)
-        // TODO: Add support for all front matter in sample pages.
-        parsers.loadTemplate(
-          'html',
-          {
-            page: response,
-            head_title: file.title,
-          },
-          siteConfig,
-        ).then((fullResponse) => {
-          fileHandlers.outputFile(siteConfig, file, fullResponse);
-        });
-      });
-    }
-  });
-
-  // Copy supporting files.
-  fileHandlers.copyHandler(siteConfig);
-}
-
-// Do the initial parse of each file and build the site index.
-// Note: when this is complete the entire site will be in memory.
-parsers.prepareFiles(siteConfig.contentBasePath, (files) => {
-  let counter = 0;
-
-  files.forEach((file) => {
-    const processedFile = parsers.handleFile(file);
-
-    // Add new page to main content list:
-    siteIndex.content.push(processedFile);
-
-    // Maintain list of tags:
-    if (processedFile.tags) {
-      siteIndex.tags = merge(siteIndex.tags, processedFile.tags);
-    }
-
-    // Add to site map. If we haven't added this section yet, create a new Index
-    // entry to track it.
-    if (!Object.prototype.hasOwnProperty.call(siteIndex.map, processedFile.localPath)) {
-      siteIndex.map[processedFile.localPath] = {
-        hasSub: true,
-        title: processedFile.title,
-        path: processedFile.localPath,
-        map: {},
-      };
-    }
-    // If this is an index update the parent.
-    if (processedFile.localName.endsWith('index.html')) {
-      siteIndex.map[processedFile.localPath].title = processedFile.title;
-    } else {
-      // Otherwise add file to proper subsection.
-      siteIndex.map[processedFile.localPath].map[processedFile.localName] = {
-        hasSub: false,
-        title: processedFile.title,
-        path: processedFile.localName,
-      };
-    }
-    // Check if we have completed all prep work and move on when last file is
-    // ready.
-    counter += 1;
-    if (counter >= files.length) {
-      contentPrepComplete();
-    }
-  });
-});
+// Kick off the main worker function.
+parsers.processFiles(siteConfig);
