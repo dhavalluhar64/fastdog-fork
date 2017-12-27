@@ -124,24 +124,27 @@ parsers.prepareFiles(siteConfig.contentBasePath, (files) => {
       siteIndex.tags = merge(siteIndex.tags, processedFile.tags);
     }
 
-    // Add to site map:
-    if (Object.prototype.hasOwnProperty.call(siteIndex.map, processedFile.localPath)) {
-      siteIndex.map[processedFile.localPath].map.push({
-        title: processedFile.title,
-        path: processedFile.localName,
-      });
-    } else {
+    // Add to site map. If we haven't added this section yet, create a new Index
+    // entry to track it.
+    if (!Object.prototype.hasOwnProperty.call(siteIndex.map, processedFile.localPath)) {
       siteIndex.map[processedFile.localPath] = {
         hasSub: true,
         title: processedFile.title,
         path: processedFile.localPath,
-        map: [{
-          title: processedFile.title,
-          path: processedFile.localName,
-        }],
+        map: {},
       };
     }
-
+    // If this is an index update the parent.
+    if (processedFile.localName.endsWith('index.html')) {
+      siteIndex.map[processedFile.localPath].title = processedFile.title;
+    } else {
+      // Otherwise add file to proper subsection.
+      siteIndex.map[processedFile.localPath].map[processedFile.localName] = {
+        hasSub: false,
+        title: processedFile.title,
+        path: processedFile.localName,
+      };
+    }
     // Check if we have completed all prep work and move on when last file is
     // ready.
     counter += 1;
