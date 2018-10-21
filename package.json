@@ -19,7 +19,10 @@
     "eslint-config-airbnb-base": "^11.3.2",
     "eslint-plugin-import": "^2.14.0"
   },
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "eslint --fix --ignore-path .gitignore ."
+  },
   "author": "Aaron Crosman",
   "license": "GPL-3.0",
   "repository": "https://github.com/acrosman/fastdog"
