@@ -12,7 +12,7 @@ program.version(`Fastdog yawn ${pkg.version}`)
   .parse(process.argv);
 
 // Fastdog dependencies.
-const parsers = require('./parsers');
+const parsers = require('./src/parsers');
 
 if (typeof program.source === 'undefined') {
   console.error('Project source path required.');
