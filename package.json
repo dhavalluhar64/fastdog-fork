@@ -1,32 +1,33 @@
 {
   "name": "fastdog",
-  "version": "0.1.0",
-  "description": "A node.js static site generator.",
+  "version": "0.2.0-alpha",
+  "description": "A static site generator built around hexo and election with included editor.",
   "main": "main.js",
+  "keywords": [
+    "electron",
+    "markdown",
+    "static generator"
+  ],
+  "author": "Aaron Crosman <acrosman@gmail.com> (https://spinningcode.org)",
+  "license": "MIT",
   "dependencies": {
-    "commander": "^2.20.0",
-    "deepmerge": "^1.5.2",
-    "electron": "^3.1.13",
-    "fs-extra": "^3.0.1",
-    "marked": "^0.7.0",
-    "nunjucks": "^3.2.0",
-    "path": "^0.12.7",
-    "yaml-front-matter": "^3.4.1",
-    "yamljs": "^0.2.10"
+    "electron": "^6.0.6",
+    "hexo": "^3.9.0",
+    "simple-git": "^1.124.0",
+    "simplemde": "^1.11.2"
   },
   "devDependencies": {
     "devtron": "^1.4.0",
-    "eslint": "^5.7.0",
-    "eslint-config-airbnb": "^17.1.0",
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1"
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.0.1"
   },
   "scripts": {
     "lint": "eslint --ignore-path .gitignore src",
     "lint:fix": "eslint --fix --ignore-path .gitignore ."
   },
-  "author": "Aaron Crosman",
-  "license": "GPL-3.0",
   "repository": "https://github.com/acrosman/fastdog"
 }
