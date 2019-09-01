@@ -26,6 +26,7 @@
     "eslint-plugin-react-hooks": "^2.0.1"
   },
   "scripts": {
+    "start": "electron .",
     "lint": "eslint --ignore-path .gitignore src",
     "lint:fix": "eslint --fix --ignore-path .gitignore ."
   },
